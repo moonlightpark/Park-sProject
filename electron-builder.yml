@@ -1,0 +1,15 @@
+appId: com.example.bakpro
+productName: 박프로
+directories:
+  buildResources: resources
+files:
+  - out/**
+  - package.json
+asarUnpack:
+  - node_modules/node-pty/**
+  - node_modules/@anthropic-ai/claude-agent-sdk/**
+mac:
+  category: public.app-category.productivity
+  target: dir
+  extendInfo:
+    CFBundleDevelopmentRegion: ko
