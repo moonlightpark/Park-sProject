@@ -3,6 +3,7 @@ import { api, basename } from '../lib/api'
 import { panels, usePanels } from '../lib/panels'
 import { useFeature } from '../lib/project'
 import { t } from '../i18n/ko'
+import { keys } from '../lib/keys'
 import { Icon } from './ui'
 import { ProjectSwitcher } from './ProjectSwitcher'
 
@@ -103,7 +104,7 @@ export function TitleBar({
     <header className="titlebar">
       <div className="tb-left">
         <div className="tb-split">
-          <button className="tb-btn" onClick={onNewSession} title="⌥⌘N">
+          <button className="tb-btn" onClick={onNewSession} title={keys('⌥⌘N')}>
             <Icon name="plus" size={14} /> {t.titlebar.newSession}
           </button>
           <Dropdown
@@ -115,11 +116,11 @@ export function TitleBar({
           >
             {(close) => (
               <>
-                <MenuItem label={t.titlebar.newAgentSession} hint="⌥⌘N" onClick={() => (close(), onNewSession())} />
-                <MenuItem label={t.titlebar.newFile} hint="⌘N" onClick={() => (close(), onCommand('new-file'))} />
+                <MenuItem label={t.titlebar.newAgentSession} hint={keys('⌥⌘N')} onClick={() => (close(), onNewSession())} />
+                <MenuItem label={t.titlebar.newFile} hint={keys('⌘N')} onClick={() => (close(), onCommand('new-file'))} />
                 <hr />
-                <MenuItem label={t.titlebar.newWindow} hint="⇧⌘N" onClick={() => (close(), api.workspace.newWindow())} />
-                <MenuItem label={t.titlebar.openFolderNewWindow} hint="⇧⌘O" onClick={() => (close(), api.workspace.pickNewWindow())} />
+                <MenuItem label={t.titlebar.newWindow} hint={keys('⇧⌘N')} onClick={() => (close(), api.workspace.newWindow())} />
+                <MenuItem label={t.titlebar.openFolderNewWindow} hint={keys('⇧⌘O')} onClick={() => (close(), api.workspace.pickNewWindow())} />
               </>
             )}
           </Dropdown>
@@ -193,7 +194,7 @@ export function TitleBar({
                   />
                 ))}
                 <hr />
-                {terminalOn && <MenuItem label={t.titlebar.openTerminal} hint="⌃`" onClick={() => (close(), onCommand('open-terminal'))} />}
+                {terminalOn && <MenuItem label={t.titlebar.openTerminal} hint={keys('⌃`')} onClick={() => (close(), onCommand('open-terminal'))} />}
                 <MenuItem label={t.titlebar.refresh} onClick={loadGit} />
               </>
             )
@@ -234,9 +235,9 @@ export function TitleBar({
             {(close) => (
               <>
                 <div className="menu-label">{t.titlebar.rightPanels}</div>
-                {aiOn && <MenuItem label={t.titlebar.aiPanel} hint="⇧⌘A" checked={p.ai} onClick={() => (close(), onCommand('toggle-ai'))} />}
-                <MenuItem label={t.titlebar.historyPanel} hint="⇧⌘H" checked={p.history} onClick={() => (close(), onCommand('toggle-history'))} />
-                {terminalOn && <MenuItem label={t.titlebar.terminalPanel} hint="⌃`" checked={p.terminal} onClick={() => (close(), onCommand('toggle-terminal'))} />}
+                {aiOn && <MenuItem label={t.titlebar.aiPanel} hint={keys('⇧⌘A')} checked={p.ai} onClick={() => (close(), onCommand('toggle-ai'))} />}
+                <MenuItem label={t.titlebar.historyPanel} hint={keys('⇧⌘H')} checked={p.history} onClick={() => (close(), onCommand('toggle-history'))} />
+                {terminalOn && <MenuItem label={t.titlebar.terminalPanel} hint={keys('⌃`')} checked={p.terminal} onClick={() => (close(), onCommand('toggle-terminal'))} />}
               </>
             )}
           </Dropdown>

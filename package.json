@@ -1,7 +1,7 @@
 {
   "name": "nimbalyst-ko",
   "productName": "박프로",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "description": "AI 에이전트와 함께 쓰는 한국어 마크다운 작업공간",
   "main": "out/main/index.js",
@@ -12,7 +12,8 @@
     "start": "electron-vite preview",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "postinstall": "electron-builder install-app-deps && node -e \"for(const a of ['arm64','x64'])try{require('fs').chmodSync('node_modules/node-pty/prebuilds/darwin-'+a+'/spawn-helper',0o755)}catch{}\"",
-    "dist": "electron-vite build && electron-builder --mac --arm64"
+    "dist": "electron-vite build && electron-builder --mac --arm64 -c.directories.output=/tmp/bakpro-dist",
+    "dist:win": "electron-vite build && electron-builder --win --x64"
   },
   "devDependencies": {
     "@lexical/code": "^0.52.0",
@@ -55,5 +56,6 @@
     "electron-store": "^8.2.0",
     "js-yaml": "^5.5.0",
     "node-pty": "^1.1.0"
-  }
+  },
+  "author": "moonlightpark"
 }

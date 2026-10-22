@@ -1,4 +1,6 @@
-export const WELCOME_DOC = `# 박프로 시작하기
+import { keys } from '../lib/keys'
+
+export const WELCOME_DOC = keys(`# 박프로 시작하기
 
 **박프로**는 Claude Code 에이전트와 함께 쓰는 한국어 마크다운 작업공간입니다.
 
@@ -35,4 +37,4 @@ graph LR
 - ⌘P 빠른 열기, ⌘⇧F 작업공간 전체 내용 검색
 - ⌃\` 내장 터미널
 - 설정에서 라이트 / 다크 / 크리스탈 다크 테마를 고를 수 있습니다.
-`
+`)

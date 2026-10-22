@@ -95,7 +95,7 @@ export function Launcher({ appearance }: { appearance: Record<string, Appearance
               if (e.nativeEvent.isComposing) return
               if (e.key === 'ArrowDown') (e.preventDefault(), setSel((s) => Math.min(s + 1, filtered.length - 1)))
               if (e.key === 'ArrowUp') (e.preventDefault(), setSel((s) => Math.max(s - 1, 0)))
-              if (e.key === 'Enter' && filtered[sel]) open(filtered[sel], e.metaKey)
+              if (e.key === 'Enter' && filtered[sel]) open(filtered[sel], e.metaKey || e.ctrlKey)
             }}
           />
         </div>
@@ -106,7 +106,7 @@ export function Launcher({ appearance }: { appearance: Record<string, Appearance
             <div
               key={p.path}
               className={`project-item${i === sel && query ? ' sel' : ''}${p.exists ? '' : ' missing'}`}
-              onClick={(e) => open(p, e.metaKey)}
+              onClick={(e) => open(p, e.metaKey || e.ctrlKey)}
               onMouseEnter={() => setSel(i)}
               onContextMenu={(e) => {
                 e.preventDefault()

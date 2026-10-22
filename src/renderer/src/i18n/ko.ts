@@ -1,3 +1,4 @@
+import { localizePlatform } from '../lib/keys'
 /** 화면에 표시되는 모든 문구. 다른 언어를 추가하려면 같은 모양의 객체를 만들면 된다. */
 export const ko = {
   app: { name: '박프로', tagline: 'AI 에이전트와 함께 쓰는 마크다운 작업공간' },
@@ -653,7 +654,7 @@ export const ko = {
   }
 }
 
-export const t = ko
+export const t = localizePlatform(ko)
 
 export function timeAgo(ms: number): string {
   const diff = Date.now() - ms

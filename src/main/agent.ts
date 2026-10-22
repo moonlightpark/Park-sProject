@@ -5,6 +5,7 @@ import os from 'os'
 import crypto from 'crypto'
 import type { CanUseTool, HookCallback, Query, SDKMessage } from '@anthropic-ai/claude-agent-sdk'
 import { getSettings } from './settings'
+import { findBinary, shellEnv } from './bin'
 import { saveSnapshot } from './history'
 import { recordAccount, recordRateLimit } from './usage'
 import { getProject } from './project'
@@ -158,13 +159,21 @@ export function answerPermission(requestId: string, allow: boolean, always?: boo
 export function findClaude(): string | undefined {
   const configured = getSettings().claudePath.trim()
   if (configured) return configured
-  const candidates = [
-    path.join(os.homedir(), '.local/bin/claude'),
-    path.join(os.homedir(), '.claude/local/claude'),
-    '/opt/homebrew/bin/claude',
-    '/usr/local/bin/claude'
-  ]
-  return candidates.find((c) => existsSync(c))
+  return findBinary(['claude'], { exeOnly: true, extraDirs: [path.join(os.homedir(), '.claude', 'local')] }) ?? bundledClaude()
+}
+
+/**
+ * 설치된 Claude Code 가 없을 때 쓰는, SDK 와 함께 들어 있는 운영체제별 Claude Code.
+ * 패키징된 앱에서는 app.asar 안의 실행 파일을 직접 실행할 수 없으므로 풀어 둔 app.asar.unpacked 쪽 경로를 쓴다.
+ */
+function bundledClaude(): string | undefined {
+  try {
+    const pkg = path.dirname(require.resolve(`@anthropic-ai/claude-agent-sdk-${process.platform}-${process.arch}/package.json`))
+    const bin = path.join(pkg.replace(`app.asar${path.sep}`, `app.asar.unpacked${path.sep}`), process.platform === 'win32' ? 'claude.exe' : 'claude')
+    return existsSync(bin) ? bin : undefined
+  } catch {
+    return undefined
+  }
 }
 
 /** 에이전트 프로세스 환경. 설정에서 'API 키 사용' 을 켜면 저장된 Anthropic 키를 넘긴다 */
@@ -177,12 +186,7 @@ async function agentEnv(): Promise<Record<string, string>> {
   return env
 }
 
-export function shellEnv(): Record<string, string> {
-  // macOS 에서 GUI 로 실행된 앱은 셸 PATH 를 물려받지 못하므로 흔한 경로를 보충한다
-  const extra = ['/opt/homebrew/bin', '/usr/local/bin', path.join(os.homedir(), '.local/bin')]
-  const PATH = [...extra, ...(process.env.PATH ?? '').split(':')].filter(Boolean).join(':')
-  return { ...(process.env as Record<string, string>), PATH }
-}
+export { shellEnv }
 
 const newId = (): string => crypto.randomUUID()
 

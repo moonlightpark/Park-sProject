@@ -89,7 +89,7 @@ export function JobsPanel({
                     <code>{String((perm.input as any)?.command ?? (perm.input as any)?.file_path ?? '').slice(0, 120)}</code>
                   </div>
                   <div className="job-actions">
-                    {btn(t.agent.allow.replace(' (⌘↵)', ''), () => agentStore.answer(perm.requestId, true), 'primary')}
+                    {btn(t.agent.allow.replace(/\s*\(.*\)$/, ''), () => agentStore.answer(perm.requestId, true), 'primary')}
                     {btn(t.agent.deny, () => agentStore.answer(perm.requestId, false))}
                   </div>
                 </div>

@@ -1,0 +1,69 @@
+# v* 태그를 올리면 macOS(Apple Silicon)·Windows(x64) 설치 파일을 만들어 GitHub Release 에 올린다.
+# 손으로 돌릴 때(workflow_dispatch)는 빌드 결과를 Actions 아티팩트로만 남긴다.
+name: release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-14
+            target: --mac --arm64
+          - os: windows-latest
+            target: --win --x64
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # 운영체제에 맞는 node-pty·Claude Code 바이너리를 받기 위해 각 러너에서 설치한다
+      - run: npm ci
+
+      - run: npm run typecheck
+
+      - run: npx electron-vite build
+
+      - run: npx electron-builder ${{ matrix.target }} --publish never
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: false
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bakpro-${{ matrix.os }}
+          path: |
+            dist/*.dmg
+            dist/*.zip
+            dist/*-setup.exe
+          if-no-files-found: error
+
+  release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+
+      # 릴리스가 이미 있으면(노트를 먼저 써 둔 경우) 파일만 덧붙인다
+      - run: |
+          gh release view "$TAG" --repo "$REPO" >/dev/null 2>&1 || gh release create "$TAG" --repo "$REPO" --title "박프로 ${TAG#v}" --generate-notes
+          gh release upload "$TAG" artifacts/* --repo "$REPO" --clobber
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+          REPO: ${{ github.repository }}

@@ -112,6 +112,16 @@ export default function App() {
   useEffect(() => {
     if (display) api.setZoom(display.uiScale)
   }, [display?.uiScale]) // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    if (!display || api.platform === 'darwin') return
+    // Windows 창 버튼은 페이지 밖에서 그려지므로 테마 색과 배율을 직접 알려 준다
+    const css = getComputedStyle(document.documentElement)
+    api.setTitleBarOverlay({
+      color: css.getPropertyValue('--panel').trim() || '#fbfbfc',
+      symbolColor: css.getPropertyValue('--text').trim() || '#1d1f24',
+      height: 40 * display.uiScale
+    })
+  }, [display?.theme, display?.uiScale]) // eslint-disable-line react-hooks/exhaustive-deps
 
   /** 메뉴와 상단 바가 함께 쓰는 명령 처리 */
   const runCommand = async (cmd: string): Promise<void> => {

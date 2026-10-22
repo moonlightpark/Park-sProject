@@ -1,5 +1,5 @@
 import { ReactNode, useEffect, useMemo, useState } from 'react'
-import { api } from '../../lib/api'
+import { api, basename, relative } from '../../lib/api'
 import { useAgentStore } from '../../lib/agentStore'
 import { useProject } from '../../lib/project'
 import { playSound } from '../../lib/sound'
@@ -216,7 +216,7 @@ function NotificationsPage({ s }: { s: Settings }) {
                 {n.sounds[k]}
                 {k === 'custom' && (
                   <>
-                    {s.customSoundPath && <span className="row-desc mono">{s.customSoundPath.split('/').pop()}</span>}
+                    {s.customSoundPath && <span className="row-desc mono">{basename(s.customSoundPath)}</span>}
                     <button className="btn small" disabled={!s.soundEnabled} onClick={(e) => (e.preventDefault(), api.notify.pickSound())}>
                       {n.pickFile}
                     </button>
@@ -356,7 +356,7 @@ function DatabasePage() {
       <Section>
         {info && <code className="path-box">{info.root}</code>}
         {info?.items.map((it) => (
-          <Row key={it.key} title={S.database.items[it.key] ?? it.key} desc={<span className="mono">{it.path.replace(info.root + '/', '')}</span>}>
+          <Row key={it.key} title={S.database.items[it.key] ?? it.key} desc={<span className="mono">{relative(info.root, it.path)}</span>}>
             <span className="row-desc">{fmtBytes(it.bytes)}</span>
           </Row>
         ))}

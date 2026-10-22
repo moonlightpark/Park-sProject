@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { api, basename, isMarkdown } from '../lib/api'
+import { api, basename, isInside, isMarkdown } from '../lib/api'
 import { resolveImageSrc } from '../components/markdown/ImageNode'
 import { bus } from '../lib/bus'
 import { panels, setActiveDoc, usePanels } from '../lib/panels'
@@ -337,12 +337,12 @@ export function FilesMode({ workspace, settings }: { workspace: string; settings
           activePath={active}
           onOpen={open}
           onRenamed={(from, to) => {
-            setDocs((ds) => ds.map((d) => (d.path === from ? { ...d, path: to } : d.path.startsWith(from + '/') ? { ...d, path: to + d.path.slice(from.length) } : d)))
+            setDocs((ds) => ds.map((d) => (d.path === from ? { ...d, path: to } : isInside(d.path, from) ? { ...d, path: to + d.path.slice(from.length) } : d)))
             if (active === from) setActive(to)
           }}
           onDeleted={(p) => {
-            setDocs((ds) => ds.filter((d) => d.path !== p && !d.path.startsWith(p + '/')))
-            if (active && (active === p || active.startsWith(p + '/'))) setActive(null)
+            setDocs((ds) => ds.filter((d) => d.path !== p && !isInside(d.path, p)))
+            if (active && (active === p || isInside(active, p))) setActive(null)
           }}
         />
       </div>

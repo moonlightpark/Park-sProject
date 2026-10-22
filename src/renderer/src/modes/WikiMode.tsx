@@ -51,7 +51,7 @@ export function WikiMode({ workspace, onOpenAgent }: { workspace: string; onOpen
     const offs = [
       api.workspace.onTreeChanged(load),
       api.workspace.onFileChanged(async (p: string) => {
-        if (!p.includes(`/${wikiDirRef.current}/`)) return
+        if (!p.replace(/\\/g, '/').includes(`/${wikiDirRef.current}/`)) return
         load()
         // 에이전트가 지금 열린 페이지를 고쳤으면 다시 불러온다
         if (p === activeRef.current) {

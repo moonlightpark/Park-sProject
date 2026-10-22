@@ -3,6 +3,7 @@ import { promises as fs, existsSync } from 'fs'
 import path from 'path'
 import os from 'os'
 import { execFile } from 'child_process'
+import { findBinary } from './bin'
 
 /* ---------------- 저장된 API 키 (macOS 키체인으로 암호화) ---------------- */
 
@@ -65,16 +66,6 @@ export interface ProviderStatus {
   version: string | null
 }
 
-const SEARCH_DIRS = (): string[] => [
-  path.join(os.homedir(), '.local/bin'),
-  path.join(os.homedir(), '.claude/local'),
-  '/opt/homebrew/bin',
-  '/usr/local/bin',
-  path.join(os.homedir(), '.npm-global/bin'),
-  path.join(os.homedir(), '.bun/bin'),
-  ...(process.env.PATH ?? '').split(':')
-]
-
 const BINARIES: Record<string, string[]> = {
   claude: ['claude'],
   codex: ['codex'],
@@ -93,8 +84,7 @@ function version(bin: string): Promise<string | null> {
 }
 
 export async function providerStatus(id: string, overridePath?: string): Promise<ProviderStatus> {
-  const candidates = overridePath ? [overridePath] : (BINARIES[id] ?? []).flatMap((b) => SEARCH_DIRS().filter(Boolean).map((d) => path.join(d, b)))
-  const found = candidates.find((c) => existsSync(c)) ?? null
+  const found = overridePath ? (existsSync(overridePath) ? overridePath : null) : findBinary(BINARIES[id] ?? [])
   return { id, installed: !!found, path: found, version: found ? await version(found) : null }
 }
 

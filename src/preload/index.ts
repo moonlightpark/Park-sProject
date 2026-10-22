@@ -104,6 +104,7 @@ const api = {
     resetSettings: () => invoke('settings:reset')
   },
   setZoom: (factor: number) => invoke('window:zoom', factor),
+  setTitleBarOverlay: (o: { color: string; symbolColor: string; height: number }) => invoke('window:overlay', o),
   onFocusSession: (cb: (sessionId: string) => void) => on('agent:focus-session', cb),
   project: {
     get: () => invoke('project:get'),

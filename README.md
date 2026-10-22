@@ -4,7 +4,9 @@ Claude Code 에이전트와 함께 쓰는 **한국어 마크다운 작업공간*
 `/Applications/Nimbalyst.app`(v0.81.7)을 REA로 분석해 핵심 기능을 파악한 뒤, 원본 코드를 복사하지 않고 처음부터 새로 구현했습니다.
 UI·메뉴·대화상자·에이전트 응답이 모두 한국어로 동작합니다.
 
-## 설치 (macOS, Apple Silicon)
+## 설치
+
+### macOS (Apple Silicon)
 
 [Releases](https://github.com/moonlightpark/Park-sProject/releases) 에서 `Bakpro-<버전>-arm64.dmg` 를 받아 `Bakpro.app` 을 응용 프로그램 폴더로 옮깁니다.
 
@@ -13,6 +15,14 @@ Apple 공증을 받지 않은 앱이라 처음 열 때 "확인되지 않은 개�
 ```bash
 xattr -dr com.apple.quarantine /Applications/Bakpro.app
 ```
+
+### Windows (x64)
+
+[Releases](https://github.com/moonlightpark/Park-sProject/releases) 에서 `Bakpro-<버전>-x64-setup.exe` 를 받아 실행합니다.
+코드 서명 인증서가 없는 앱이라 "Windows의 PC 보호" 창이 뜨면 **추가 정보 → 실행**을 누르세요.
+내용 검색은 [ripgrep](https://github.com/BurntSushi/ripgrep)(`rg`)이 설치되어 있으면 더 빠르고, git 기능은 [Git for Windows](https://git-scm.com/download/win)가 필요합니다.
+
+### 공통
 
 Claude Code 가 설치되어 있지 않아도 앱에 들어 있는 Claude Code 로 에이전트가 동작합니다. 다만 인증이 필요하므로, 이 컴퓨터에서 Claude Code 에 로그인한 적이 없다면 설정에서 Anthropic API 키를 넣고 "API 키 사용"을 켜세요.
 
@@ -23,10 +33,19 @@ npm install          # node-pty 권한 설정까지 자동으로 처리
 npm run dev          # 개발 모드 (핫 리로드)
 npm run build && npm start   # 빌드 후 실행
 npm run dist         # macOS .dmg / .zip 만들기 (/tmp/bakpro-dist)
+npm run dist:win     # Windows 설치 파일 (Windows 에서 실행, dist/)
 ```
 
 AI 기능은 로컬에 설치된 Claude Code(`claude`)를 사용합니다. 터미널에서 `claude` 로 한 번 로그인해 두거나 `ANTHROPIC_API_KEY` 를 설정하세요.
 실행 파일 위치가 다르면 **설정 → Claude Code 실행 파일 경로**에 지정합니다.
+
+## 배포
+
+`v*` 태그를 올리면 GitHub Actions(`.github/workflows/release.yml`)가 macOS·Windows 설치 파일을 만들어 Releases 에 올립니다.
+
+```bash
+npm version patch && git push --follow-tags
+```
 
 ## 기능
 

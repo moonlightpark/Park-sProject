@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { TreeNode } from '../lib/types'
-import { api, dirname, join, basename } from '../lib/api'
+import { api, dirname, join, basename, isInside } from '../lib/api'
 import { t } from '../i18n/ko'
 import { ContextMenu, Icon, InputDialog, MenuEntry, toast } from './ui'
 
@@ -107,7 +107,7 @@ export function FileTree({
           onDragOver={(e) => n.type === 'dir' && e.preventDefault()}
           onDrop={(e) => {
             const from = e.dataTransfer.getData('text/x-path')
-            if (!from || n.type !== 'dir' || from === n.path || n.path.startsWith(from + '/')) return
+            if (!from || n.type !== 'dir' || from === n.path || isInside(n.path, from)) return
             const to = join(n.path, basename(from))
             run(async () => {
               await api.fs.rename(from, to)

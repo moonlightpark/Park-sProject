@@ -14,20 +14,25 @@ import type { TextMatchTransformer } from '@lexical/markdown'
 /** 지금 편집 중인 문서의 경로. 상대 경로 이미지를 이 문서의 폴더 기준으로 찾는다. */
 export const DocPathContext = createContext<string | null>(null)
 
-/** 마크다운의 이미지 주소를 화면에 띄울 수 있는 주소로 바꾼다 */
+/** 마크다운의 이미지 주소를 화면에 띄울 수 있는 주소로 바꾼다. 경로는 / 로 통일해 다룬다 (Windows 의 C:\ 경로 포함). */
 export function resolveImageSrc(src: string, docPath: string | null): string {
   if (/^(https?:|data:|blob:)/i.test(src)) return src
   let abs: string
-  if (/^file:\/\//i.test(src)) abs = decodeURIComponent(new URL(src).pathname)
+  if (/^file:\/\//i.test(src)) abs = decodeURIComponent(new URL(src).pathname).replace(/^\/([A-Za-z]:)/, '$1')
   else {
-    const clean = safeDecode(src.split(/[?#]/)[0])
-    if (clean.startsWith('/')) abs = clean
+    const clean = safeDecode(src.split(/[?#]/)[0]).replace(/\\/g, '/')
+    if (isAbsolute(clean)) abs = normalize(clean)
     else if (!docPath) return src
-    else abs = normalize(docPath.slice(0, docPath.lastIndexOf('/')) + '/' + clean)
+    else {
+      const doc = docPath.replace(/\\/g, '/')
+      abs = normalize(doc.slice(0, doc.lastIndexOf('/')) + '/' + clean)
+    }
   }
   // 로컬 파일은 메인 프로세스의 local-file: 프로토콜로 읽는다 (개발 모드의 http 페이지에서도 열리도록)
-  return 'local-file://f' + abs.split('/').map(encodeURIComponent).join('/')
+  return 'local-file://f/' + abs.replace(/^\//, '').split('/').map(encodeURIComponent).join('/')
 }
+
+const isAbsolute = (p: string): boolean => p.startsWith('/') || /^[A-Za-z]:\//.test(p)
 
 function safeDecode(s: string): string {
   try {
@@ -38,12 +43,13 @@ function safeDecode(s: string): string {
 }
 
 function normalize(p: string): string {
+  const drive = /^[A-Za-z]:/.exec(p)?.[0]
   const out: string[] = []
-  for (const part of p.split('/')) {
+  for (const part of (drive ? p.slice(2) : p).split('/')) {
     if (part === '..') out.pop()
     else if (part !== '.' && part !== '') out.push(part)
   }
-  return '/' + out.join('/')
+  return (drive ?? '') + '/' + out.join('/')
 }
 
 export type SerializedImageNode = Spread<{ src: string; alt: string; title: string; raw: string }, SerializedLexicalNode>

@@ -2,6 +2,7 @@ import { promises as fs } from 'fs'
 import path from 'path'
 import { spawn } from 'child_process'
 import { watch, FSWatcher } from 'fs'
+import { findBinary } from './bin'
 
 export interface TreeNode {
   name: string
@@ -135,16 +136,8 @@ export async function search(root: string, query: string): Promise<SearchHit[]> 
 
 let rgPath: string | null | undefined
 async function findRipgrep(): Promise<string | null> {
-  if (rgPath !== undefined) return rgPath
-  for (const c of ['/opt/homebrew/bin/rg', '/usr/local/bin/rg', '/usr/bin/rg']) {
-    try {
-      await fs.access(c)
-      return (rgPath = c)
-    } catch {
-      /* 다음 후보 */
-    }
-  }
-  return (rgPath = null)
+  if (rgPath === undefined) rgPath = findBinary(['rg'], { exeOnly: true, extraDirs: ['/usr/bin'] })
+  return rgPath
 }
 
 export async function listAllFiles(root: string): Promise<string[]> {

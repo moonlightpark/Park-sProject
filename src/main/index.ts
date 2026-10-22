@@ -152,8 +152,10 @@ function createWindow(): Promise<WindowCtx> {
     minWidth: 820,
     minHeight: 560,
     title: '박프로',
-    titleBarStyle: process.platform === 'darwin' ? 'hiddenInset' : 'default',
-    trafficLightPosition: { x: 14, y: 14 },
+    // macOS 는 신호등 버튼만 남기고, Windows·Linux 는 기본 창 버튼을 앱 상단 표시줄 오른쪽에 겹쳐 그린다
+    ...(process.platform === 'darwin'
+      ? { titleBarStyle: 'hiddenInset' as const, trafficLightPosition: { x: 14, y: 14 } }
+      : { titleBarStyle: 'hidden' as const, titleBarOverlay: { color: '#fbfbfc', symbolColor: '#1d1f24', height: 40 } }),
     backgroundColor: '#ffffff',
     show: false,
     webPreferences: {
@@ -487,6 +489,11 @@ function registerIpc(): void {
   handle('workspace:current', (ctx) => ctx.workspace)
   // 프로젝트 모양의 '텍스트 크기' : 창 전체 확대 배율
   handle('window:zoom', (ctx, factor: number) => ctx.win.webContents.setZoomFactor(Math.min(1.5, Math.max(0.8, Number(factor) || 1))))
+  // Windows 창 버튼(최소화·최대화·닫기)을 테마 색과 상단 표시줄 높이(텍스트 크기 배율 반영)에 맞춘다
+  handle('window:overlay', (ctx, o: { color: string; symbolColor: string; height: number }) => {
+    if (process.platform === 'darwin') return
+    ctx.win.setTitleBarOverlay({ color: o.color, symbolColor: o.symbolColor, height: Math.round(o.height) })
+  })
 
   handle('git:info', (ctx) => gitv.gitInfo(requireWorkspace(ctx)))
   handle('git:changes', (ctx) => gitv.gitChanges(requireWorkspace(ctx)))

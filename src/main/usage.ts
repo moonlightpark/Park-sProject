@@ -1,7 +1,7 @@
 import { app } from 'electron'
-import { promises as fs, existsSync } from 'fs'
+import { promises as fs } from 'fs'
 import path from 'path'
-import os from 'os'
+import { findBinary } from './bin'
 
 /**
  * 왼쪽 레일의 사용률 표시. Claude 는 에이전트 SDK 가 대화마다 보내는 rate_limit_event 의
@@ -28,10 +28,7 @@ let loaded = false
 
 const file = (): string => path.join(app.getPath('userData'), 'usage.json')
 
-function cliInstalled(name: string): boolean {
-  const dirs = ['/opt/homebrew/bin', '/usr/local/bin', path.join(os.homedir(), '.local/bin'), ...(process.env.PATH ?? '').split(':')]
-  return dirs.some((d) => d && existsSync(path.join(d, name)))
-}
+const cliInstalled = (name: string): boolean => findBinary([name]) !== null
 
 export function onUsageChanged(fn: (s: UsageState) => void): void {
   listener = fn

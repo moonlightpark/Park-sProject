@@ -6,6 +6,7 @@ import { useProject } from '../lib/project'
 import type { ChatItem, Settings } from '../lib/types'
 import { t, toolLabels } from '../i18n/ko'
 import { Icon } from './ui'
+import { sep } from '../lib/api'
 
 function Markdown({ text }: { text: string }) {
   const html = useMemo(() => DOMPurify.sanitize(marked.parse(text, { async: false, breaks: true }) as string), [text])
@@ -36,7 +37,7 @@ function ToolCard({
       <summary>
         <Icon name={use.name === 'Bash' ? 'terminal' : use.name.includes('Edit') || use.name === 'Write' ? 'edit' : 'file'} size={14} />
         <span className="tname">{label}</span>
-        <span className="targ">{toolSummary(use.name, use.input).replace(workspace + '/', '')}</span>
+        <span className="targ">{toolSummary(use.name, use.input).replaceAll(workspace + sep, '')}</span>
         <span className={`state ${result ? (result.isError ? 'err' : 'ok') : ''}`}>
           {result ? (result.isError ? t.agent.failed : '✓') : <span className="spinner" />}
         </span>

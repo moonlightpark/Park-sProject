@@ -76,7 +76,7 @@ export function TrackerMode({ onOpenAgent }: { onOpenAgent: (sessionId: string) 
   useEffect(() => {
     load()
     const offTree = api.workspace.onTreeChanged(load)
-    const offFile = api.workspace.onFileChanged((p: string) => p.includes('/.nimbalyst/trackers/') && load())
+    const offFile = api.workspace.onFileChanged((p: string) => /[\\/]\.nimbalyst[\\/]trackers[\\/]/.test(p) && load())
     return () => (offTree(), offFile())
   }, [load])
 
