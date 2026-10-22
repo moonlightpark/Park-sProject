@@ -1,15 +1,26 @@
 appId: com.example.bakpro
-productName: 박프로
+# 앱 번들·헬퍼 이름이 한글이면 macOS 에서 시작하자마자 죽으므로 파일 이름은 영문으로 두고,
+# Finder·Dock 에 보이는 이름은 CFBundleDisplayName 으로 박프로라고 쓴다 (CFBundleName 도 헬퍼를 찾는 데 쓰여 영문이어야 한다)
+productName: Bakpro
 directories:
   buildResources: resources
+  # 바탕화면(iCloud 동기화) 안에서는 codesign 이 확장 속성 때문에 실패하므로 임시 폴더에 만든다
+  output: /tmp/bakpro-dist
 files:
   - out/**
   - package.json
 asarUnpack:
   - node_modules/node-pty/**
-  - node_modules/@anthropic-ai/claude-agent-sdk/**
+  - node_modules/@anthropic-ai/**
 mac:
   category: public.app-category.productivity
-  target: dir
+  target:
+    - dmg
+    - zip
+  # Developer ID 인증서가 없어 애드혹 서명만 한다 (공증 없음)
+  identity: '-'
+  hardenedRuntime: false
+  artifactName: Bakpro-${version}-${arch}.${ext}
   extendInfo:
     CFBundleDevelopmentRegion: ko
+    CFBundleDisplayName: 박프로
