@@ -21,7 +21,7 @@ import { UserInfoModal } from './components/ProjectModals'
 import { AppSettingsView, AppPage } from './components/settings/AppSettingsView'
 import { ProjectSettingsView, ProjectPage } from './components/settings/ProjectSettingsView'
 import { playSound } from './lib/sound'
-import { EDITOR_FONTS, effectiveDisplay, setProjectDisplay } from './lib/display'
+import { editorFontCss, effectiveDisplay, setProjectDisplay } from './lib/display'
 import { Launcher } from './components/Launcher'
 
 type Overlay = 'quick-open' | 'search' | 'shortcuts' | 'user-info' | null
@@ -107,7 +107,7 @@ export default function App() {
     const root = document.documentElement
     root.dataset.theme = display.theme
     root.style.setProperty('--editor-font-size', `${display.editorFontSize}px`)
-    root.style.setProperty('--editor-font-family', EDITOR_FONTS[display.editorFont])
+    root.style.setProperty('--editor-font-family', editorFontCss(display.editorFont))
   }, [display?.theme, display?.editorFontSize, display?.editorFont]) // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (display) api.setZoom(display.uiScale)

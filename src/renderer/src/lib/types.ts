@@ -13,7 +13,8 @@ export interface ProjectAppearance {
   theme?: 'light' | 'dark' | 'crystal'
   uiScale?: number
   editorFontSize?: number
-  editorFont?: 'system' | 'gothic' | 'serif' | 'mono'
+  /** 'system'·'gothic'·'serif'·'mono' 기본 묶음, 그 밖의 값은 시스템 글꼴 이름 */
+  editorFont?: string
 }
 
 export interface Settings {

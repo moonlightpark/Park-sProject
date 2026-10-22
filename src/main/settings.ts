@@ -32,7 +32,7 @@ export interface AppSettings {
   /** 저장된 Anthropic API 키를 Claude 로그인 대신 쓸지 */
   useApiKey: boolean
   /** 프로젝트 모양 (이 컴퓨터에만 저장): 경로 → 이니셜·색·이미지(작게 줄인 data URL) */
-  projectAppearance: Record<string, { initials?: string; color?: string; image?: string; theme?: 'light' | 'dark' | 'crystal'; uiScale?: number; editorFontSize?: number; editorFont?: 'system' | 'gothic' | 'serif' | 'mono' }>
+  projectAppearance: Record<string, { initials?: string; color?: string; image?: string; theme?: 'light' | 'dark' | 'crystal'; uiScale?: number; editorFontSize?: number; editorFont?: string }>
 }
 
 const defaults: AppSettings = {

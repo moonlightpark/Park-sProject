@@ -7,7 +7,8 @@ import { Icon, toast } from '../ui'
 import { autoColor, defaultInitials, ProjectAvatar } from '../ProjectAvatar'
 import { ComingSoon, NavGroup, PageHeader, Row, Section, SettingsShell, Toggle } from './Shell'
 import { McpList } from './AppSettingsView'
-import { EDITOR_FONTS, effectiveDisplay, setProjectDisplay, UI_SCALES } from '../../lib/display'
+import { EDITOR_FONTS, editorFontCss, effectiveDisplay, setProjectDisplay, UI_SCALES } from '../../lib/display'
+import { FontPicker } from './FontPicker'
 
 const P = t.projectView
 const errMsg = (e: unknown): string =>
@@ -265,8 +266,9 @@ function AppearancePage({ workspace, settings }: { workspace: string; settings: 
               </button>
             ))}
           </div>
+          <FontPicker value={display.editorFont in EDITOR_FONTS ? null : display.editorFont} onPick={(f) => setDisplay({ editorFont: f })} />
         </Row>
-        <div className="font-preview" style={{ fontFamily: EDITOR_FONTS[display.editorFont], fontSize: display.editorFontSize }}>
+        <div className="font-preview" style={{ fontFamily: editorFontCss(display.editorFont), fontSize: display.editorFontSize }}>
           {a.preview}
         </div>
         <div className="btn-row">

@@ -35,6 +35,9 @@ jobs:
 
       - run: npm run typecheck
 
+      # HWP 편집기(rhwp-studio)를 소스에서 빌드해 앱에 넣는다
+      - run: npm run build:hwp
+
       - run: npx electron-vite build
 
       - run: npx electron-builder ${{ matrix.target }} --publish never

@@ -8,6 +8,8 @@ import {
   IpcMainInvokeEvent,
   Menu,
   shell,
+  clipboard,
+  ClipboardItem,
   MenuItemConstructorOptions,
   Notification
 } from 'electron'
@@ -25,7 +27,9 @@ import * as usage from './usage'
 import * as wiki from './wiki'
 import * as project from './project'
 import * as system from './system'
-import { registerLocalFileScheme, handleLocalFile } from './localFile'
+import { registerLocalFileScheme, handleLocalFile, handleLocalPreview } from './localFile'
+import { startHwpServer } from './hwpServer'
+import { cacheRoot as officeCacheRoot, legacyPreview } from './legacyOffice'
 import { resetSettings } from './settings'
 import { addRecentWorkspace, getSettings, removeRecentWorkspace, updateSettings, AppSettings } from './settings'
 
@@ -163,7 +167,9 @@ function createWindow(): Promise<WindowCtx> {
       sandbox: false,
       contextIsolation: true,
       nodeIntegration: false,
-      spellcheck: false
+      spellcheck: false,
+      // PDF 미리보기에 Chromium 내장 PDF 뷰어를 쓴다
+      plugins: true
     }
   })
   const ctx: WindowCtx = { win, workspace: null, stopWatch: null }
@@ -490,6 +496,16 @@ function registerIpc(): void {
   // 프로젝트 모양의 '텍스트 크기' : 창 전체 확대 배율
   handle('window:zoom', (ctx, factor: number) => ctx.win.webContents.setZoomFactor(Math.min(1.5, Math.max(0.8, Number(factor) || 1))))
   // Windows 창 버튼(최소화·최대화·닫기)을 테마 색과 상단 표시줄 높이(텍스트 크기 배율 반영)에 맞춘다
+  // HWP 편집기 로컬 서버 주소 (처음 부를 때 띄운다)
+  handle('hwp:server', () => startHwpServer(insideOpenWorkspace))
+  // 예전 PowerPoint(.ppt) → 미리보기 HTML 경로
+  handle('office:legacy-preview', (ctx, p: string) => legacyPreview(inside(ctx, p)))
+  // 창의 일부(미리보기 영역 등)를 찍어 클립보드에 넣는다
+  handle('window:capture', async (ctx, r: { x: number; y: number; width: number; height: number }) => {
+    const rect = { x: Math.round(r.x), y: Math.round(r.y), width: Math.max(1, Math.round(r.width)), height: Math.max(1, Math.round(r.height)) }
+    const png = (await ctx.win.webContents.capturePage(rect)).toPNG()
+    await clipboard.write([new ClipboardItem({ 'image/png': new Blob([new Uint8Array(png)], { type: 'image/png' }) })])
+  })
   handle('window:overlay', (ctx, o: { color: string; symbolColor: string; height: number }) => {
     if (process.platform === 'darwin') return
     ctx.win.setTitleBarOverlay({ color: o.color, symbolColor: o.symbolColor, height: Math.round(o.height) })
@@ -591,6 +607,14 @@ function registerIpc(): void {
   const inside = (ctx: WindowCtx, p: string): string => ws.assertInside(requireWorkspace(ctx), p)
 
   handle('fs:read', (ctx, p: string) => ws.readFile(inside(ctx, p)))
+  // pptx 같은 이진 파일. 임시 파일에 쓴 뒤 바꿔 끼워, 쓰다가 끊겨도 원본이 깨지지 않게 한다
+  handle('fs:read-binary', async (ctx, p: string) => new Uint8Array(await fsp.readFile(inside(ctx, p))))
+  handle('fs:write-binary', async (ctx, p: string, data: Uint8Array) => {
+    const abs = inside(ctx, p)
+    const tmp = `${abs}.${process.pid}.tmp`
+    await fsp.writeFile(tmp, data)
+    await fsp.rename(tmp, abs)
+  })
   handle('fs:write', async (ctx, p: string, content: string, snapshot?: 'manual' | 'auto' | 'restore') => {
     const abs = inside(ctx, p)
     await ws.writeFile(abs, content)
@@ -613,6 +637,11 @@ function registerIpc(): void {
     return true
   })
   handle('fs:reveal', (ctx, p: string) => shell.showItemInFolder(inside(ctx, p)))
+  // 기본 앱(HTML 이면 브라우저)으로 연다
+  handle('fs:open-default', async (ctx, p: string) => {
+    const err = await shell.openPath(inside(ctx, p))
+    if (err) throw new Error(err)
+  })
 
   handle('history:list', (ctx, p: string) => history.listSnapshots(inside(ctx, p)))
   handle('history:read', (ctx, p: string, id: string) => history.readSnapshot(inside(ctx, p), id))
@@ -660,9 +689,31 @@ function registerIpc(): void {
   })
 }
 
+function insideDir(dir: string, file: string): boolean {
+  try {
+    return !!ws.assertInside(dir, file)
+  } catch {
+    return false
+  }
+}
+
+/** 열려 있는 창 중 하나의 작업공간 안에 있는 파일인가 (미리보기·HWP 편집기가 읽고 쓸 수 있는 범위) */
+function insideOpenWorkspace(file: string): boolean {
+  return [...windows.values()].some((c) => {
+    if (!c.workspace) return false
+    try {
+      return !!ws.assertInside(c.workspace, file)
+    } catch {
+      return false
+    }
+  })
+}
+
 registerLocalFileScheme()
 app.whenReady().then(async () => {
   handleLocalFile()
+  // .ppt 미리보기 캐시도 미리보기 프로토콜로 읽을 수 있게 한다
+  handleLocalPreview((file) => insideOpenWorkspace(file) || insideDir(officeCacheRoot(), file))
   registerIpc()
   buildMenu()
   // 앱은 항상 프로젝트 시작 화면(폴더 열기 · 새 폴더 · 최근 프로젝트)에서 시작한다

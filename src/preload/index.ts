@@ -32,12 +32,15 @@ const api = {
   },
   fs: {
     read: (p: string) => invoke('fs:read', p),
+    readBinary: (p: string): Promise<Uint8Array> => invoke('fs:read-binary', p),
+    writeBinary: (p: string, data: Uint8Array) => invoke('fs:write-binary', p, data),
     write: (p: string, content: string, snapshot?: string) => invoke('fs:write', p, content, snapshot),
     createFile: (p: string, content?: string) => invoke('fs:create-file', p, content),
     createDir: (p: string) => invoke('fs:create-dir', p),
     rename: (from: string, to: string) => invoke('fs:rename', from, to),
     delete: (p: string) => invoke('fs:delete', p),
-    reveal: (p: string) => invoke('fs:reveal', p)
+    reveal: (p: string) => invoke('fs:reveal', p),
+    openDefault: (p: string) => invoke('fs:open-default', p)
   },
   history: {
     list: (p: string) => invoke('history:list', p),
@@ -105,6 +108,9 @@ const api = {
   },
   setZoom: (factor: number) => invoke('window:zoom', factor),
   setTitleBarOverlay: (o: { color: string; symbolColor: string; height: number }) => invoke('window:overlay', o),
+  capture: (r: { x: number; y: number; width: number; height: number }) => invoke('window:capture', r),
+  hwpServer: (): Promise<{ origin: string; token: string }> => invoke('hwp:server'),
+  legacyPreview: (p: string): Promise<string> => invoke('office:legacy-preview', p),
   onFocusSession: (cb: (sessionId: string) => void) => on('agent:focus-session', cb),
   project: {
     get: () => invoke('project:get'),

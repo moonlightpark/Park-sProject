@@ -4,3 +4,5 @@ dist
 .DS_Store
 # 개인용 로컬 위키 등 (앱의 "nimbalyst-local 을 git 에서 제외" 설정과 같음)
 nimbalyst-local/
+# npm run build:hwp 결과 (소스에서 빌드)
+resources/rhwp-studio/

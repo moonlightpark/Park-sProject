@@ -18,3 +18,5 @@ export const join = (...parts: string[]): string => parts.join(sep).replace(/[\\
 export const isInside = (p: string, dir: string): boolean => p.length > dir.length && p.startsWith(dir) && /[\\/]/.test(p[dir.length])
 export const relative = (root: string, p: string): string => (p.startsWith(root) ? p.slice(root.length).replace(/^[\\/]/, '') : p)
 export const isMarkdown = (p: string): boolean => /\.(md|markdown|mdx)$/i.test(p)
+export const isPptx = (p: string): boolean => /\.pptx$/i.test(p)
+export const isExcalidraw = (p: string): boolean => /\.excalidraw(\.json)?$/i.test(p)

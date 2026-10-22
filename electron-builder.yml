@@ -8,6 +8,13 @@ directories:
 files:
   - out/**
   - package.json
+# HWP 편집기(rhwp-studio) — npm run build:hwp 로 만든 것을 앱 Resources 에 그대로 넣는다
+extraResources:
+  - from: resources/rhwp-studio
+    to: rhwp-studio
+  # .ppt 미리보기용 macOS 스크립트 (PDF → PNG)
+  - from: resources/scripts
+    to: scripts
 asarUnpack:
   - node_modules/node-pty/**
   - node_modules/@anthropic-ai/**
