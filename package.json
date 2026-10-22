@@ -1,7 +1,7 @@
 {
   "name": "nimbalyst-ko",
   "productName": "박프로",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "description": "AI 에이전트와 함께 쓰는 한국어 마크다운 작업공간",
   "main": "out/main/index.js",
