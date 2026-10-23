@@ -14,7 +14,7 @@ import { HtmlPreview, isHtml } from '../components/HtmlPreview'
 import { PdfViewer, isPdf } from '../components/PdfViewer'
 import { MediaPlayer, isMedia } from '../components/MediaPlayer'
 import { ImageViewer, isImage } from '../components/ImageViewer'
-import { LegacyPptViewer, isLegacyPpt } from '../components/LegacyPptViewer'
+import { LegacyOfficeViewer, isLegacyOffice } from '../components/LegacyOfficeViewer'
 import { SqlDiagram } from '../components/sql/SqlDiagram'
 
 const isSql = (p: string): boolean => /\.sql$/i.test(p)
@@ -40,7 +40,7 @@ const isHwp = (p: string): boolean => /\.hwpx?$/i.test(p)
 /** 편집기가 직접 읽고 저장하는 이진 문서 (pptx·hwp) */
 const isBinaryDoc = (p: string): boolean => isPptx(p) || isHwp(p)
 
-const BINARY = /\.(ppt|pps|pot|png|jpe?g|jfif|pjpeg|avif|gif|webp|bmp|ico|pdf|zip|gz|tar|mp3|m4a|aac|wav|flac|ogg|oga|opus|mp4|m4v|mov|webm|ogv|woff2?|ttf|otf|dmg|exe|dylib|so|sqlite|db)$/i
+const BINARY = /\.(ppt|pps|pot|doc|dot|xls|xlt|png|jpe?g|jfif|pjpeg|avif|gif|webp|bmp|ico|pdf|zip|gz|tar|mp3|m4a|aac|wav|flac|ogg|oga|opus|mp4|m4v|mov|webm|ogv|woff2?|ttf|otf|dmg|exe|dylib|so|sqlite|db)$/i
 
 const errMsg = (e: unknown): string =>
   e instanceof Error ? e.message.replace(/^Error invoking remote method '[^']+': (Error: )?/, '') : String(e)
@@ -371,7 +371,7 @@ export function FilesMode({ workspace, settings }: { workspace: string; settings
       )
     }
     if (isPdf(doc.path)) return <PdfViewer path={doc.path} version={doc.version} />
-    if (isLegacyPpt(doc.path)) return <LegacyPptViewer key={doc.path} path={doc.path} version={doc.version} />
+    if (isLegacyOffice(doc.path)) return <LegacyOfficeViewer key={doc.path} path={doc.path} version={doc.version} />
     if (isMedia(doc.path)) return <MediaPlayer path={doc.path} version={doc.version} />
     if (isHwp(doc.path)) {
       const p = doc.path

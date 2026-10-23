@@ -110,7 +110,7 @@ const api = {
   setTitleBarOverlay: (o: { color: string; symbolColor: string; height: number }) => invoke('window:overlay', o),
   capture: (r: { x: number; y: number; width: number; height: number }) => invoke('window:capture', r),
   hwpServer: (): Promise<{ origin: string; token: string }> => invoke('hwp:server'),
-  legacyPreview: (p: string): Promise<string> => invoke('office:legacy-preview', p),
+  legacyPreview: (p: string): Promise<{ html: string; sheets: { name: string; html: string }[] }> => invoke('office:legacy-preview', p),
   onFocusSession: (cb: (sessionId: string) => void) => on('agent:focus-session', cb),
   project: {
     get: () => invoke('project:get'),
