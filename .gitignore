@@ -6,3 +6,5 @@ dist
 nimbalyst-local/
 # npm run build:hwp 결과 (소스에서 빌드)
 resources/rhwp-studio/
+# 아이콘 시안 미리보기 (로컬 전용)
+icon_preview.png
