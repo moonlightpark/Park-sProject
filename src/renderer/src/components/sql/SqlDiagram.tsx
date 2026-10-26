@@ -26,11 +26,13 @@ const measure = (() => {
   }
 })()
 const FONT = getComputedStyle(document.body).fontFamily || 'sans-serif'
+/** 자료형은 고정폭 글꼴로 그린다 (.sql-type 과 같게) */
+const MONO = 'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace'
 
 function boxWidth(t: Table): number {
   let w = measure(t.name, `600 13px ${FONT}`) + PAD_X * 2 + 20
-  for (const c of t.columns) w = Math.max(w, PAD_X * 2 + 22 + measure(c.name, `12px ${FONT}`) + 24 + measure(c.type, `11px ${FONT}`))
-  return Math.min(380, Math.max(170, Math.ceil(w)))
+  for (const c of t.columns) w = Math.max(w, PAD_X * 2 + 22 + measure(c.name, `12px ${FONT}`) + 24 + measure(c.type, `11px ${MONO}`))
+  return Math.min(480, Math.max(170, Math.ceil(w)))
 }
 
 /**
