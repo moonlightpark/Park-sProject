@@ -8,6 +8,24 @@ import { ProjectAvatar, Appearance } from './ProjectAvatar'
 const errMsg = (e: unknown): string =>
   e instanceof Error ? e.message.replace(/^Error invoking remote method '[^']+': (Error: )?/, '') : String(e)
 
+/** 앱 아이콘(칸반 보드) 모양의 로고. 색은 테마의 강조색을 따른다 */
+function LogoMark({ large }: { large?: boolean }) {
+  return (
+    <div className={`logo-mark${large ? ' large' : ''}`}>
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        {[4, 9.6, 15.2].map((x, i) => (
+          <g key={x}>
+            <rect className="col" x={x} y={4} width={4.8} height={16} rx={1.2} />
+            {Array.from({ length: 3 - i }, (_, j) => (
+              <rect key={j} className="card" x={x + 0.6} y={4.7 + j * 3.8} width={3.6} height={3} rx={0.8} />
+            ))}
+          </g>
+        ))}
+      </svg>
+    </div>
+  )
+}
+
 function openedLabel(ms: number | null): string {
   if (!ms) return ''
   const day = (d: Date): number => new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime()
@@ -71,7 +89,7 @@ export function Launcher({ appearance }: { appearance: Record<string, Appearance
     <div className="launcher">
       <aside className="launcher-side">
         <div className="launcher-brand">
-          <div className="logo-mark">박</div>
+          <LogoMark />
           <span>박프로</span>
         </div>
         <div className="launcher-actions">
@@ -141,7 +159,7 @@ export function Launcher({ appearance }: { appearance: Record<string, Appearance
       <main className="launcher-main">
         <div className="launcher-card">
           <div className="card-head">
-            <div className="logo-mark large">박</div>
+            <LogoMark large />
             <div>
               <h1>{t.launcher.title}</h1>
               <div className="sub">{t.launcher.subtitle}</div>

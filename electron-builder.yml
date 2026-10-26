@@ -15,6 +15,9 @@ extraResources:
   # .ppt 미리보기용 macOS 스크립트 (PDF → PNG)
   - from: resources/scripts
     to: scripts
+  # 테마별 Dock 아이콘 (라이트·다크·크리스탈)
+  - from: resources/dock
+    to: dock
 asarUnpack:
   - node_modules/node-pty/**
   - node_modules/@anthropic-ai/**

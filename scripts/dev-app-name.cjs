@@ -8,6 +8,8 @@ const fs = require('fs')
 const path = require('path')
 
 const NAME = 'BakPro'
+// Dock 툴팁에 보일 이름 (설치용 앱과 같게)
+const DISPLAY = '박프로'
 
 if (process.platform !== 'darwin') process.exit(0)
 
@@ -17,7 +19,7 @@ if (!fs.existsSync(plist)) process.exit(0)
 
 const read = (key) => {
   try {
-    return execFileSync('/usr/libexec/PlistBuddy', ['-c', `Print :${key}`, plist]).toString().trim()
+    return execFileSync('/usr/libexec/PlistBuddy', ['-c', `Print :${key}`, plist], { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim()
   } catch {
     return null
   }
@@ -29,6 +31,21 @@ for (const key of ['CFBundleName', 'CFBundleDisplayName']) {
   if (value === NAME) continue
   const op = value === null ? `Add :${key} string ${NAME}` : `Set :${key} ${NAME}`
   execFileSync('/usr/libexec/PlistBuddy', ['-c', op, plist])
+  changed = true
+}
+
+// Dock 툴팁은 번들 파일 이름(Electron.app)을 보여 주므로, 지역화된 표시 이름을 쓰도록 한다
+if (read('LSHasLocalizedDisplayName') !== 'true') {
+  const op = read('LSHasLocalizedDisplayName') === null ? 'Add :LSHasLocalizedDisplayName bool true' : 'Set :LSHasLocalizedDisplayName true'
+  execFileSync('/usr/libexec/PlistBuddy', ['-c', op, plist])
+  changed = true
+}
+const strings = `"CFBundleDisplayName" = "${DISPLAY}";\n"CFBundleName" = "${NAME}";\n`
+for (const lang of ['en', 'ko']) {
+  const file = path.join(app, 'Contents/Resources', `${lang}.lproj`, 'InfoPlist.strings')
+  if (fs.existsSync(file) && fs.readFileSync(file, 'utf8') === strings) continue
+  fs.mkdirSync(path.dirname(file), { recursive: true })
+  fs.writeFileSync(file, strings, 'utf8')
   changed = true
 }
 

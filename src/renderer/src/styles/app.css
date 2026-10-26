@@ -1753,24 +1753,42 @@ select:focus {
   font-weight: 700;
   -webkit-app-region: drag;
 }
+/* 앱 아이콘(칸반 보드) 로고. 라이트는 보라 바탕에 흰 카드, 다크 계열은 어두운 바탕에 강조색 카드 (Dock 아이콘과 같은 배색) */
 .logo-mark {
+  --logo-from: var(--accent);
+  --logo-to: #9a6bf0;
+  --logo-card: #ffffff;
   width: 28px;
   height: 28px;
   border-radius: 8px;
-  background: linear-gradient(135deg, var(--accent), #9b6cf2);
-  color: #fff;
+  background: linear-gradient(135deg, var(--logo-from), var(--logo-to));
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 800;
-  font-size: 14px;
   flex-shrink: 0;
+}
+[data-theme='dark'] .logo-mark,
+[data-theme='crystal'] .logo-mark {
+  --logo-from: color-mix(in srgb, var(--accent) 22%, var(--bg));
+  --logo-to: var(--bg);
+  --logo-card: var(--accent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+.logo-mark svg {
+  width: 100%;
+  height: 100%;
+}
+.logo-mark .col {
+  fill: var(--logo-card);
+  opacity: 0.16;
+}
+.logo-mark .card {
+  fill: var(--logo-card);
 }
 .logo-mark.large {
   width: 44px;
   height: 44px;
   border-radius: 12px;
-  font-size: 21px;
 }
 .launcher-actions {
   display: flex;

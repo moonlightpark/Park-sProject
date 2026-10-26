@@ -19,7 +19,7 @@ export const ko = {
     openNewWindow: '새 창에서 열기',
     reveal: 'Finder에서 보기',
     remove: '목록에서 제거',
-    title: '박프로에 오신 것을 환영합니다',
+    title: '프로젝트 관리 박프로와 함께하세요. :)',
     subtitle: '코딩 에이전트와 함께 만드는 시각적 작업공간',
     intro: [
       '박프로의 모든 작업은 ',
@@ -37,7 +37,7 @@ export const ko = {
     openOwn: ['왼쪽에서 ', '폴더 열기', '를 눌러 내 프로젝트에서 작업하세요.']
   },
   welcome: {
-    title: '박프로에 오신 것을 환영합니다',
+    title: '프로젝트 관리 박프로와 함께하세요. :)',
     subtitle: '폴더를 열어 문서를 쓰고, Claude 에이전트에게 일을 맡겨 보세요.',
     open: '폴더 열기',
     recent: '최근 프로젝트',

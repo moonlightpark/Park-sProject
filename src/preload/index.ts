@@ -107,6 +107,7 @@ const api = {
     resetSettings: () => invoke('settings:reset')
   },
   setZoom: (factor: number) => invoke('window:zoom', factor),
+  setTheme: (theme: string) => invoke('window:theme', theme),
   setTitleBarOverlay: (o: { color: string; symbolColor: string; height: number }) => invoke('window:overlay', o),
   capture: (r: { x: number; y: number; width: number; height: number }) => invoke('window:capture', r),
   hwpServer: (): Promise<{ origin: string; token: string }> => invoke('hwp:server'),

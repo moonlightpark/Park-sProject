@@ -106,6 +106,7 @@ export default function App() {
     if (!display) return
     const root = document.documentElement
     root.dataset.theme = display.theme
+    api.setTheme(display.theme)
     root.style.setProperty('--editor-font-size', `${display.editorFontSize}px`)
     root.style.setProperty('--editor-font-family', editorFontCss(display.editorFont))
   }, [display?.theme, display?.editorFontSize, display?.editorFont]) // eslint-disable-line react-hooks/exhaustive-deps

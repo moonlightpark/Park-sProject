@@ -11,7 +11,8 @@ import {
   clipboard,
   ClipboardItem,
   MenuItemConstructorOptions,
-  Notification
+  Notification,
+  nativeImage
 } from 'electron'
 import path from 'path'
 import { promises as fsp } from 'fs'
@@ -40,9 +41,22 @@ interface WindowCtx {
   win: BrowserWindow
   workspace: string | null
   stopWatch: (() => void) | null
+  /** 이 창에 적용된 테마. 창에 포커스가 오면 Dock 아이콘을 이 테마에 맞춘다 */
+  theme?: string
 }
 
 const windows = new Map<number, WindowCtx>()
+
+/** macOS Dock 아이콘을 테마(라이트·다크·크리스탈)에 맞춘다. 설치 파일·Finder 아이콘은 resources/icon.png 그대로 */
+let dockTheme: string | null = null
+function setDockTheme(theme: string | undefined): void {
+  if (process.platform !== 'darwin' || !app.dock || !theme || theme === dockTheme) return
+  const base = app.isPackaged ? path.join(process.resourcesPath, 'dock') : path.join(app.getAppPath(), 'resources', 'dock')
+  const img = nativeImage.createFromPath(path.join(base, `${theme}.png`))
+  if (img.isEmpty()) return
+  app.dock.setIcon(img)
+  dockTheme = theme
+}
 
 const ctxOf = (e: IpcMainInvokeEvent): WindowCtx => {
   const ctx = windows.get(e.sender.id)
@@ -177,7 +191,10 @@ function createWindow(): Promise<WindowCtx> {
   windows.set(id, ctx)
 
   win.once('ready-to-show', () => win.show())
-  win.on('focus', buildMenu)
+  win.on('focus', () => {
+    buildMenu()
+    setDockTheme(ctx.theme)
+  })
   win.webContents.setWindowOpenHandler(({ url }) => {
     if (/^https?:/.test(url)) shell.openExternal(url)
     return { action: 'deny' }
@@ -494,6 +511,10 @@ function registerIpc(): void {
   })
   handle('workspace:current', (ctx) => ctx.workspace)
   // 프로젝트 모양의 '텍스트 크기' : 창 전체 확대 배율
+  handle('window:theme', (ctx, theme: string) => {
+    ctx.theme = theme
+    if (ctx.win.isFocused() || !dockTheme) setDockTheme(theme)
+  })
   handle('window:zoom', (ctx, factor: number) => ctx.win.webContents.setZoomFactor(Math.min(1.5, Math.max(0.8, Number(factor) || 1))))
   // Windows 창 버튼(최소화·최대화·닫기)을 테마 색과 상단 표시줄 높이(텍스트 크기 배율 반영)에 맞춘다
   // HWP 편집기 로컬 서버 주소 (처음 부를 때 띄운다)
