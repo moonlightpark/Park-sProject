@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>박프로 — 프로젝트 관리를 앱 하나로!</title>
+  <meta name="description" content="여러 프로젝트를 한 앱에서 열고, 전환하고, 관리하세요. 한글·엑셀·파워포인트 편집, 할 일 관리, Claude AI 에이전트까지. macOS·Windows 무료." />
+  <meta property="og:title" content="박프로 — 프로젝트 관리를 앱 하나로!" />
+  <meta property="og:description" content="여러 프로젝트의 문서·할 일·AI 에이전트를 한 앱에서. 한국어 프로젝트 관리 앱." />
+  <meta property="og:image" content="images/og.jpg" />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#5b5bd6" />
+  <link rel="icon" href="images/icon.png" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <a class="skip" href="#main">본문으로 건너뛰기</a>
+
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#top"><img src="images/icon.png" alt="" width="28" height="28" />박프로</a>
+      <nav class="nav-links" aria-label="주요 메뉴">
+        <a href="#projects">프로젝트</a>
+        <a href="#formats">파일 형식</a>
+        <a href="#hwp">한글</a>
+        <a href="#ai">AI</a>
+        <a href="#tracker">트래커</a>
+        <a href="#privacy">개인정보</a>
+        <a href="#install">설치</a>
+      </nav>
+      <a class="btn btn-primary btn-sm" href="#install">내려받기</a>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- 히어로 -->
+    <section class="hero" id="top">
+      <div class="wrap">
+        <a class="pill" href="https://github.com/moonlightpark/Park-sProject/releases/latest" target="_blank" rel="noopener">
+          <span class="pill-tag">새 버전</span><span data-version>v0.1.3</span> · 예전 Word·Excel 파일 보기 지원 →
+        </a>
+        <h1>프로젝트 관리를<br /><span class="grad">앱 하나로!</span></h1>
+        <p class="lead">
+          회사 일, 공부, 개인 계획까지 — 여러 프로젝트를 한 앱에서 열고, 오가며, 관리하세요.<br class="br-wide" />
+          문서와 할 일, AI 에이전트가 프로젝트마다 한 창에 모입니다.
+        </p>
+        <div class="cta">
+          <a class="btn btn-primary" data-dl="mac" href="https://github.com/moonlightpark/Park-sProject/releases/latest">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.1-1.7-2.9-1.9-3.6-1.9-1.5-.2-3 .9-3.7.9-.8 0-2-.9-3.2-.9-1.7 0-3.2 1-4 2.4-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.1-.8 1.5 0 1.9.8 3.2.8 1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8 0 0-2.4-.9-2.4-3.8zM14 5.5c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1 .1 2.1-.6 2.8-1.4z"/></svg>
+            Mac용 내려받기
+          </a>
+          <a class="btn btn-primary" data-dl="win" href="https://github.com/moonlightpark/Park-sProject/releases/latest">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.5 10.4 4.5v7H3zM11.4 4.3 21 3v8.5h-9.6zM3 12.5h7.4v7L3 18.5zM11.4 12.5H21V21l-9.6-1.3z"/></svg>
+            Windows용 내려받기
+          </a>
+          <a class="btn btn-ghost" href="https://github.com/moonlightpark/Park-sProject" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.3-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.8V21c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></svg>
+            GitHub
+          </a>
+        </div>
+        <p class="fine">무료 · macOS(Apple Silicon) · Windows(x64) · 베타</p>
+
+        <figure class="shot shot-hero shot-bare">
+          <img src="images/windows.webp" width="2000" height="1270" alt="박프로 창 세 개가 겹쳐 있는 모습: 사내 위키, 모바일 앱 리뉴얼, 동네카페 프로젝트가 각각 자기 창에서 열려 있다" />
+        </figure>
+      </div>
+    </section>
+
+    <!-- 프로젝트 -->
+    <section class="section" id="projects">
+      <div class="wrap">
+        <p class="eyebrow">프로젝트</p>
+        <h2>모든 프로젝트를<br />한곳에서 시작합니다.</h2>
+        <p class="sub">앱을 켜면 시작 화면에 최근 프로젝트가 모여 있습니다. 폴더 하나가 곧 프로젝트라, 이미 쓰던 폴더를 그대로 열거나 새로 만들면 됩니다.</p>
+        <figure class="shot shot-launch">
+          <img src="images/launcher.webp" width="2200" height="1440" loading="lazy" alt="박프로 시작 화면: 폴더 열기·새 폴더·튜토리얼 열기 버튼과 동네카페, 모바일 앱 리뉴얼, 사내 위키, 졸업논문, 가을 마케팅 캠페인, 제주 여행 계획 등 최근 프로젝트 목록" />
+        </figure>
+        <div class="cards cards-4">
+          <article class="card">
+            <div class="card-icon">📂</div>
+            <h3>폴더 열기</h3>
+            <p>이미 쓰던 폴더를 그대로 프로젝트로 엽니다. 파일을 옮기거나 가져올 필요가 없습니다.</p>
+          </article>
+          <article class="card">
+            <div class="card-icon">✨</div>
+            <h3>새 프로젝트</h3>
+            <p>위치와 이름만 정하면 폴더를 만들고 바로 엽니다. 처음이라면 튜토리얼 프로젝트로 시작하세요.</p>
+          </article>
+          <article class="card">
+            <div class="card-icon">🔎</div>
+            <h3>최근 프로젝트</h3>
+            <p>이름으로 검색하고, 문서 수와 마지막으로 연 날짜를 한눈에 봅니다. 프로젝트마다 이니셜·색·이미지 아이콘을 붙일 수 있습니다.</p>
+          </article>
+          <article class="card">
+            <div class="card-icon">🪟</div>
+            <h3>프로젝트마다 한 창</h3>
+            <p>창마다 파일 감시·터미널·에이전트가 따로 돌아 서로 섞이지 않습니다. 같은 폴더를 다시 열면 열려 있던 창으로 이동합니다.</p>
+          </article>
+        </div>
+        <div class="duo">
+          <figure class="shot">
+            <img src="images/new-project.webp" width="620" height="320" loading="lazy" alt="새 프로젝트 폴더 만들기 대화상자: 폴더 이름과 위치를 고르고 만들기를 누른다" />
+            <figcaption><b>새 프로젝트 만들기</b> — 이름과 위치를 고르면 폴더를 만들고 바로 엽니다.</figcaption>
+          </figure>
+          <figure class="shot">
+            <img src="images/switcher.webp" width="1040" height="720" loading="lazy" alt="상단 프로젝트 이름을 눌러 연 메뉴: 열린 프로젝트 세 개와 새 창에서 열 최근 프로젝트 목록" />
+            <figcaption><b>빠른 전환</b> — 상단의 프로젝트 이름을 누르면 열린 프로젝트와 최근 프로젝트로 바로 이동합니다. ⌥⌘1~9로도 창을 바꿉니다.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- 파일 형식 -->
+    <section class="section" id="formats">
+      <div class="wrap">
+        <p class="eyebrow">파일 형식</p>
+        <h2>여는 앱을 따로 찾지 않아도 됩니다.</h2>
+        <p class="sub">프로젝트 폴더를 열면 안에 있는 파일을 탭으로 바로 보고 고칩니다. 바꾼 내용은 원래 파일에 그대로 저장됩니다.</p>
+
+        <div class="tabs" role="tablist" aria-label="파일 형식 보기">
+          <button role="tab" aria-selected="true" data-shot="md">마크다운</button>
+          <button role="tab" aria-selected="false" data-shot="hwp">한글</button>
+          <button role="tab" aria-selected="false" data-shot="csv">표 (CSV)</button>
+          <button role="tab" aria-selected="false" data-shot="pptx">파워포인트</button>
+          <button role="tab" aria-selected="false" data-shot="sql">SQL 관계도</button>
+          <button role="tab" aria-selected="false" data-shot="excalidraw">그림판</button>
+        </div>
+        <figure class="shot">
+          <img id="format-shot" src="images/md.webp" width="2160" height="1350" alt="마크다운 문서를 표·체크리스트와 함께 편집하는 화면" />
+          <figcaption id="format-caption">제목·표·체크리스트가 보이는 그대로 편집되고, 버튼 하나로 원문 마크다운으로 바꿔 볼 수 있습니다.</figcaption>
+        </figure>
+
+        <ul class="format-grid">
+          <li><b>마크다운</b><span>보이는 그대로 편집 · 원문 보기 · 문서 이력</span></li>
+          <li><b>한글 .hwp .hwpx</b><span>보기와 편집, 한글 형식 그대로 저장</span></li>
+          <li><b>CSV · TSV</b><span>엑셀처럼 셀 편집, SUM·AVERAGE 같은 수식, 정렬</span></li>
+          <li><b>파워포인트 .pptx</b><span>슬라이드 보기, 글자 고치기, 복제·삭제·순서 바꾸기</span></li>
+          <li><b>SQL</b><span>CREATE TABLE을 읽어 관계도로, 소스 보기로 바로 수정</span></li>
+          <li><b>.excalidraw</b><span>손그림 다이어그램 그리기와 저장</span></li>
+          <li><b>HTML</b><span>미리보기, 화면 캡처, 소스 편집</span></li>
+          <li><b>PDF · 이미지</b><span>PDF 뷰어, JPG·PNG·WebP 등 이미지 보기</span></li>
+          <li><b>오디오 · 비디오</b><span>mp3·mp4 재생, 원하는 위치로 이동</span></li>
+          <li><b>예전 Office</b><span>.ppt · .doc · .xls 보기 (macOS)</span></li>
+          <li><b>코드</b><span>Monaco 편집기로 대부분의 언어 강조</span></li>
+          <li><b>Git</b><span>변경 파일 확인, 골라서 커밋, 커밋 기록</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 한글 -->
+    <section class="section alt" id="hwp">
+      <div class="wrap split">
+        <div class="split-text">
+          <p class="eyebrow">한글</p>
+          <h2>한글 파일은<br />한글 파일 그대로.</h2>
+          <p class="sub">공공기관·학교 서식처럼 꼭 한글로 내야 하는 문서도 앱을 바꾸지 않고 고칩니다.</p>
+          <ul class="checks">
+            <li><b>원래 형식으로 저장</b> — 고친 내용을 .hwp 파일에 그대로 씁니다.</li>
+            <li><b>익숙한 편집 화면</b> — 글꼴·문단 모양, 표, 머리말·꼬리말 메뉴를 그대로 씁니다.</li>
+            <li><b>저장 안 한 변경 표시</b> — 고친 뒤 저장하지 않았으면 탭에 표시됩니다.</li>
+            <li><b>.hwpx도 열기</b> — 저장은 같은 이름의 .hwp로 합니다.</li>
+          </ul>
+          <p class="credit">편집 엔진: <a href="https://github.com/edwardkim/rhwp" target="_blank" rel="noopener">rhwp</a> (MIT)</p>
+        </div>
+        <figure class="shot">
+          <img src="images/hwp-crop.webp" width="1600" height="965" loading="lazy" alt="한글 문서 '사업수행계획서'를 편집기 메뉴·도구 막대와 함께 연 화면" />
+        </figure>
+      </div>
+    </section>
+
+    <!-- AI -->
+    <section class="section" id="ai">
+      <div class="wrap">
+        <p class="eyebrow">AI 에이전트</p>
+        <h2>필요한 순간에만<br />AI에게 맡깁니다.</h2>
+        <p class="sub">보고 있는 문서를 붙여 물어보거나, 에이전트 모드에서 긴 작업을 통째로 맡깁니다. 에이전트는 Claude Code 위에서 열린 프로젝트 폴더를 기준으로 동작합니다.</p>
+        <figure class="shot shot-wide">
+          <img src="images/ai.webp" width="2160" height="1350" loading="lazy" alt="사업계획 문서 옆 AI 도우미가 개업 전에 서둘러야 할 일 세 가지를 정리한 화면" />
+        </figure>
+        <div class="cards">
+          <article class="card">
+            <div class="card-icon">📎</div>
+            <h3>지금 보는 문서로 바로 질문</h3>
+            <p>오른쪽 AI 영역에서 현재 문서를 첨부해 요약·정리·수정을 요청합니다. 무엇을 읽고 고쳤는지 도구 카드로 보여 줍니다.</p>
+          </article>
+          <article class="card">
+            <div class="card-icon">🛡️</div>
+            <h3>권한은 네 단계</h3>
+            <p>매번 확인 · 편집 자동 허용 · 계획만 세우기 · 모두 허용. 파일을 바꾸기 전에 승인하도록 정할 수 있습니다.</p>
+          </article>
+          <article class="card">
+            <div class="card-icon">🌿</div>
+            <h3>여러 일을 동시에</h3>
+            <p>트래커 카드를 여러 개 골라 병렬로 실행합니다. 일마다 git worktree를 따로 만들어 서로 섞이지 않고, 끝나면 검토 후 병합합니다.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 트래커 -->
+    <section class="section alt" id="tracker">
+      <div class="wrap">
+        <p class="eyebrow">트래커</p>
+        <h2>할 일과 문서가<br />같은 폴더에.</h2>
+        <p class="sub">작업·버그·기획·아이디어·결정·기능을 칸반 보드로 관리합니다. 항목은 프로젝트 안의 마크다운 파일이라 git으로 함께 기록됩니다.</p>
+        <ul class="checks checks-row">
+          <li><b>끌어서 상태 변경</b><br />할 일 → 진행 중 → 검토 → 완료</li>
+          <li><b>에이전트에게 맡기기</b><br />카드 내용을 그대로 지시로 보냅니다.</li>
+          <li><b>Wiki</b><br />프로젝트 지식을 페이지로 모으고, AI로 정리합니다.</li>
+        </ul>
+        <figure class="shot shot-wide">
+          <img src="images/tracker-crop.webp" width="1600" height="404" loading="lazy" alt="할 일, 진행 중, 검토 칸에 카페 개업 준비 항목이 놓인 트래커 칸반 보드" />
+        </figure>
+      </div>
+    </section>
+
+    <!-- 개인정보 -->
+    <section class="section" id="privacy">
+      <div class="wrap">
+        <p class="eyebrow">개인정보와 비용</p>
+        <h2>서버도 계정도 없습니다.</h2>
+        <p class="sub">박프로는 내 컴퓨터에서만 동작하는 앱입니다. 별도의 박프로 서버나 회원가입이 없습니다.</p>
+        <div class="cards">
+          <article class="card">
+            <h3>파일은 내 컴퓨터에</h3>
+            <p>문서는 열어 둔 프로젝트 폴더에 그대로 있고, 어디에도 업로드하지 않습니다.</p>
+          </article>
+          <article class="card">
+            <h3>AI는 요청할 때만</h3>
+            <p>AI 기능을 쓸 때 보낸 질문과 첨부한 문서, 에이전트가 읽은 파일이 Claude(Anthropic)로 전달됩니다.</p>
+          </article>
+          <article class="card">
+            <h3>쓰던 Claude 그대로</h3>
+            <p>이 컴퓨터의 Claude Code 로그인(구독)이나 직접 넣은 API 키를 씁니다. API 키는 키체인에 암호화해 저장합니다.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 오픈소스 -->
+    <section class="section alt" id="opensource">
+      <div class="wrap">
+        <p class="eyebrow">오픈소스</p>
+        <h2>좋은 오픈소스 위에서 만들었습니다.</h2>
+        <ul class="oss">
+          <li><a href="https://github.com/edwardkim/rhwp" target="_blank" rel="noopener">rhwp</a><span>한글 문서 엔진·편집기</span><em>MIT</em></li>
+          <li><a href="https://lexical.dev" target="_blank" rel="noopener">Lexical</a><span>마크다운 편집기</span><em>MIT</em></li>
+          <li><a href="https://microsoft.github.io/monaco-editor/" target="_blank" rel="noopener">Monaco Editor</a><span>코드 편집기</span><em>MIT</em></li>
+          <li><a href="https://excalidraw.com" target="_blank" rel="noopener">Excalidraw</a><span>손그림 다이어그램</span><em>MIT</em></li>
+          <li><a href="https://www.npmjs.com/package/pptx-preview" target="_blank" rel="noopener">pptx-preview</a><span>슬라이드 그리기</span><em>ISC</em></li>
+          <li><a href="https://stuk.github.io/jszip/" target="_blank" rel="noopener">JSZip</a><span>pptx 읽기·쓰기</span><em>MIT</em></li>
+          <li><a href="https://www.electronjs.org" target="_blank" rel="noopener">Electron</a><span>데스크톱 앱 틀</span><em>MIT</em></li>
+          <li><a href="https://github.com/microsoft/node-pty" target="_blank" rel="noopener">node-pty</a><span>내장 터미널</span><em>MIT</em></li>
+          <li><a href="https://react.dev" target="_blank" rel="noopener">React</a><span>화면 구성</span><em>MIT</em></li>
+          <li><a href="https://docs.claude.com/en/docs/agent-sdk/overview" target="_blank" rel="noopener">Claude Agent SDK</a><span>AI 에이전트</span><em>Anthropic 약관</em></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 설치 -->
+    <section class="section" id="install">
+      <div class="wrap">
+        <p class="eyebrow">설치</p>
+        <h2>설치는 세 단계.</h2>
+        <ol class="steps">
+          <li>
+            <h3>파일 받기</h3>
+            <p>내 컴퓨터에 맞는 설치 파일을 받습니다.</p>
+            <div class="dl-row">
+              <a class="btn btn-primary btn-sm" data-dl="mac" href="https://github.com/moonlightpark/Park-sProject/releases/latest">macOS (.dmg)</a>
+              <a class="btn btn-primary btn-sm" data-dl="win" href="https://github.com/moonlightpark/Park-sProject/releases/latest">Windows (.exe)</a>
+            </div>
+            <p class="fine" data-dl-info>최신 버전 정보를 불러오는 중…</p>
+          </li>
+          <li>
+            <h3>경고 창 넘기기</h3>
+            <p>아직 코드 서명을 받지 않은 앱이라 처음 한 번 경고가 뜹니다.</p>
+            <details>
+              <summary>macOS: "확인되지 않은 개발자"</summary>
+              <p>Bakpro.app을 응용 프로그램 폴더로 옮긴 뒤, Finder에서 앱을 <b>우클릭 → 열기</b> 합니다. 또는 터미널에서 한 번 실행하세요.</p>
+              <pre><code>xattr -dr com.apple.quarantine /Applications/Bakpro.app</code></pre>
+            </details>
+            <details>
+              <summary>Windows: "Windows의 PC 보호"</summary>
+              <p>창에서 <b>추가 정보 → 실행</b>을 누릅니다. git 기능은 <a href="https://git-scm.com/download/win" target="_blank" rel="noopener">Git for Windows</a>가 있으면 쓸 수 있습니다.</p>
+            </details>
+          </li>
+          <li>
+            <h3>Claude 연결</h3>
+            <p>이 컴퓨터에서 Claude Code에 로그인한 적이 있으면 바로 동작합니다. 없다면 <b>설정 → 에이전트 제공자</b>에서 Anthropic API 키를 넣고 "API 키 사용"을 켜세요.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <div>
+        <a class="brand" href="#top"><img src="images/icon.png" alt="" width="24" height="24" />박프로</a>
+        <p class="fine">프로젝트 관리를 앱 하나로! — 여러 프로젝트의 문서·할 일·AI 에이전트를 한곳에서.<br />무료로 제공하며, 어떠한 보증도 하지 않습니다.</p>
+      </div>
+      <nav class="footer-links" aria-label="바닥글">
+        <a href="https://github.com/moonlightpark/Park-sProject" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://github.com/moonlightpark/Park-sProject/releases" target="_blank" rel="noopener">릴리스</a>
+        <a href="https://github.com/moonlightpark/Park-sProject/issues" target="_blank" rel="noopener">문제 알리기</a>
+        <a href="#install">설치 도움말</a>
+        <a href="#opensource">오픈소스</a>
+        <a href="#privacy">개인정보</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
