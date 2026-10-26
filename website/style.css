@@ -210,6 +210,20 @@ code { font-family: var(--mono); font-size: 13px; }
 @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
 
 /* 좁은 화면 */
+/* 작업 이력: 터미널과 비교 */
+.vs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; margin-top: 40px; }
+.vs-col { border-radius: var(--radius); padding: 28px; border: 1px solid var(--line); background: var(--card); }
+.vs-col h3 { margin: 0 0 14px; font-size: 18px; }
+.vs-col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.vs-col li { position: relative; padding-left: 26px; color: var(--muted); }
+.vs-col li b { color: var(--ink); }
+.vs-before h3 { color: var(--faint); }
+.vs-before li::before { content: '✕'; position: absolute; left: 0; color: var(--faint); font-weight: 700; }
+.vs-after { border-color: var(--violet); box-shadow: var(--shadow); }
+.vs-after h3 { color: var(--violet); }
+.vs-after li::before { content: '✓'; position: absolute; left: 0; color: var(--violet); font-weight: 800; }
+#history .checks-row { margin-top: 32px; }
+
 @media (max-width: 1100px) {
   .cards.cards-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
@@ -218,7 +232,7 @@ code { font-family: var(--mono); font-size: 13px; }
   .nav-inner .btn { margin-left: auto; }
   .split { grid-template-columns: 1fr; gap: 36px; }
   .split.reverse .split-text { order: 0; }
-  .cards, .steps, .checks-row, .duo { grid-template-columns: 1fr; }
+  .cards, .steps, .checks-row, .duo, .vs { grid-template-columns: 1fr; }
   .oss { grid-template-columns: 1fr; }
   .section { padding: 80px 0; }
 }
